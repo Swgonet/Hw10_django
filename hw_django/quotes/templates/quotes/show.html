@@ -1,0 +1,28 @@
+{% extends "quotes/base.html" %}
+{% block content %}
+<div class="container">
+  <h1>All Authors</h1>
+  <table class="author-list">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Born Date</th>
+        <th>Born Location</th>
+        <th>Description</th>
+        <th>Time of creation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for author in authors %}
+      <tr class="author-item">
+        <td class="author-info">{{ author.fullname }}</td>
+        <td class="author-info">{{ author.born_date }}</td>
+        <td class="author-info">{{ author.born_location }}</td>
+        <td class="author-info">{{ author.description }}</td>
+        <td class="author-info">{{ author.created_ad }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
