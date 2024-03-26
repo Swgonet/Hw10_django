@@ -12,8 +12,13 @@ def signupuser(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(to='quotes:root')
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            if user is not None:
+                login(request, user)
+                return redirect(to='quotes:root')
         else:
             return render(request, 'users/signup.html', context={"form": form})
 

@@ -1,3 +1,27 @@
+
+{% if request.path == "/" %}
+{% if user.is_authenticated %}
+<a href="{% url 'users:signup' %}" class="btn btn-primary">Signup</a>
+<a href="{% url 'users:login' %}" class="btn btn-success">Login</a>
+{% else %}
+<a href="{% url 'users:logout' %}" class="btn btn-danger">Logout</a>
+{% endif %}
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% extends 'quotes/base.html' %}
 {% block content %}
 <h2>Add New Quote</h2>
@@ -111,3 +135,40 @@
 </div>
 </body>
 </html>
+
+
+
+{% extends "quotes/base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'quotes:add_quote' %}">
+    {% csrf_token %}
+    <div style="padding: 10px">
+        <label> Add author:
+            {{ form.author }}
+        </label>
+        <span>{{ form.errors.name }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Add quote:
+            {{ form.quote }}
+        </label>
+        <span>{{ form.errors.quote }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Select tags:
+            <select name="tags" multiple="multiple" required>
+                {% for tag in tags %}
+                <option value="{{tag.tags}}">{{tag.tags}}</option>
+                {% endfor %}
+            </select>
+        </label>        
+        <span>{{ form.errors.tags }}</span>
+    </div>
+    <div class="grid">
+        <button type="submit">Submit</button>
+        <button type="reset" class="secondary">Reset</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator
 from .forms import AuthorForm, QuoteForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
-from .models import Author
+
+from .models import Author, Quote
 from .utils import get_mongo
+
 
 def main(request, page=1):
     db = get_mongo()
@@ -15,7 +17,6 @@ def main(request, page=1):
     paginator = Paginator(list(quotes), per_page)
     quotes_page = paginator.page(page)
     return render(request, 'quotes/index.html', context={'quotes': quotes_page})
-
 
 @login_required
 def add_author(request):
@@ -52,34 +53,16 @@ def add_quote(request):
 
 
 def author_detail(request, author_id):
+    # author = get_object_or_404(Author, pk=author_id)
     author = Author.objects.get(id=author_id)
     return render(request, 'quotes/author_detail.html', {'author': author})
+
+def all_quotes(request):
+    quotes = Quote.objects.all()
+    return render(request, 'quotes/all_quotes.html', {'quotes': quotes})
 
 
 def author_list(request):
     author = Author.objects.all()
     context = {'authors': author}
     return render(request, 'quotes/show.html', context)
-
-# def detail(request, note_id):
-#     note = get_object_or_404(Note, pk=note_id, user=request.user)
-#     return render(request, 'noteapp/detail.html', {"note": note})
-
-
-# @never_cache
-# def author_detail(request, author_id):
-#     author = Author.objects.get(pk=author_id)
-
-
-# def anonymous_required(view_function, redirect_to=None):
-#     """
-#     Decorator for views that checks that the user is anonymous, redirecting
-#     to the login page if necessary.
-#     """
-#     actual_decorator = user_passes_test(
-#         lambda u: u.is_anonymous,
-#         login_url=redirect_to,
-#     )
-#     if view_function:
-#         return actual_decorator(view_function)
-#     return actual_decorator

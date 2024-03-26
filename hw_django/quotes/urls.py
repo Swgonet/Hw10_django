@@ -10,4 +10,5 @@ urlpatterns = [
     path('add_quote/', views.add_quote, name='add_quote'),
     path('author/<int:author_id>/', views.author_detail, name='author_detail'),
     path('show/', views.author_list, name='show'),
+    path('all_quotes/', views.all_quotes, name='all_quotes'),
 ]

@@ -1,0 +1,11 @@
+{% extends "quotes/base.html" %}
+{% block content %}
+<div class="container">
+  <h1>All Quotes</h1>
+  <ul>
+    {% for quote in quotes %}
+    <li>{{ quote.quote }} - {{ quote.author }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

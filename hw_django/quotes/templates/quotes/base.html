@@ -28,15 +28,19 @@
                     <li><a href="/" role="button"> Go back to the main page </a></li>
                 </ul>
             </nav>
-              {% if request.path == "/" %}
+
+
+              {% if user.is_authenticated %}
+              <a href="{% url 'users:logout' %}" class="btn btn-danger">Logout</a>
+              {% else %}
               <a href="{% url 'users:signup' %}" class="btn btn-primary">Signup</a>
               <a href="{% url 'users:login' %}" class="btn btn-success">Login</a>
-              {% else %}
-              <a href="{% url 'users:logout' %}" class="btn btn-danger">Logout</a>
               {% endif %}
             </p>
         </div>
     </div>
+
+  
 
 {% block content %} {% endblock %}
 
